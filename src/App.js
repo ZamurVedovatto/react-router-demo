@@ -1,8 +1,9 @@
-import{Routes,Route} from 'react-router-dom'
+import React from 'react'
+import{ Routes, Route } from 'react-router-dom'
 
 import { Navbar } from './components/Navbar.js'
 import { Home } from './components/Home.js'
-import { About } from './components/About.js'
+// import { About } from './components/About.js'
 import { OrderSummary } from './components/OrderSummary.js'
 import { Products } from './components/Products.js'
 import { FeaturedProducts } from './components/FeaturedProducts'
@@ -12,6 +13,7 @@ import { UserDetails } from './components/UserDetails.js'
 import { Admin } from './components/Admin.js'
 import { NoMatch } from './components/NoMatch.js'
 
+const LazyAbout = React.lazy(() => import('./components/About'))
 
 function App() {
   return (
@@ -19,7 +21,15 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="about" element={<About />} />
+        {/* <Route path="about" element={<About />} /> */}
+        <Route
+          path="about"
+          element={
+            <React.Suspense fallback='Loading'>
+              <LazyAbout />
+            </React.Suspense>
+          }
+        />
         <Route path="order-summary" element={<OrderSummary />} />
         <Route path="products" element={<Products />}>
           <Route index element={<FeaturedProducts />} />
